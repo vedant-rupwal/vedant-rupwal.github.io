@@ -1,59 +1,17 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, Loader2 } from 'lucide-react';
 
 const CONTACT_EMAIL = 'vedantrupwal@gmail.com';
-const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+const CONTACT_ENDPOINT = `https://formsubmit.co/${CONTACT_EMAIL}`;
+const CONTACT_RETURN_URL = 'https://vedant-rupwal.github.io/#contact';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setSubmitting(true);
-    setError('');
-
-    try {
-      const response = await fetch(CONTACT_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          message: form.message,
-          _subject: `Portfolio contact from ${form.name}`,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || 'Message could not be sent.');
-      }
-
-      setSubmitted(true);
-      setForm({ name: '', email: '', message: '' });
-      setTimeout(() => setSubmitted(false), 4000);
-    } catch (err) {
-      const subject = encodeURIComponent(`Portfolio contact from ${form.name || 'website visitor'}`);
-      const body = encodeURIComponent(
-        `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
-      );
-      const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
-      setError('Message service is unavailable. Opening your email app instead.');
-      window.location.href = mailtoUrl;
-    } finally {
-      setSubmitting(false);
-    }
   };
 
   return (
@@ -146,26 +104,17 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.15 }}
           >
-            {submitted ? (
-              <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
-                <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-                  <CheckCircle className="w-7 h-7 text-emerald-400" />
-                </div>
-                <h3 className="text-zinc-50 font-semibold text-lg">Message sent!</h3>
-                <p className="text-zinc-500 text-sm">I'll get back to you shortly.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {error && (
-                  <div className="flex items-start gap-3 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-300" />
-                    <span>{error}</span>
-                  </div>
-                )}
+              <form action={CONTACT_ENDPOINT} method="POST" onSubmit={handleSubmit} className="space-y-5">
+                <input type="hidden" name="_subject" value="New portfolio contact message" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value={CONTACT_RETURN_URL} />
+                <input type="text" name="_honey" className="hidden" tabIndex="-1" autoComplete="off" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-wider">Name</label>
                     <input
+                      name="name"
                       type="text"
                       required
                       value={form.name}
@@ -177,6 +126,7 @@ export default function Contact() {
                   <div>
                     <label className="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-wider">Email</label>
                     <input
+                      name="email"
                       type="email"
                       required
                       value={form.email}
@@ -189,6 +139,7 @@ export default function Contact() {
                 <div>
                   <label className="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-wider">Message</label>
                   <textarea
+                    name="message"
                     required
                     rows={5}
                     value={form.message}
@@ -215,7 +166,6 @@ export default function Contact() {
                   )}
                 </button>
               </form>
-            )}
           </motion.div>
         </div>
 
