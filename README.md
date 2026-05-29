@@ -1,4 +1,4 @@
-# Vedant Rupwal Portfolio
+# vedant-rupwal.github.io
 
 Standalone Vite and React portfolio site.
 
