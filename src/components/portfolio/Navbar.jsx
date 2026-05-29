@@ -6,11 +6,13 @@ const RESUME_URL = '/Vedant_Rupwal_Resume.pdf';
 
 const navLinks = [
   { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];
+
+const sectionIds = navLinks.map((link) => link.href.replace('#', ''));
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -21,16 +23,17 @@ export default function Navbar() {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
 
-      const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
       let current = '';
-      for (const id of sections) {
+      for (const id of sectionIds) {
         const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
+        if (el && window.scrollY >= el.offsetTop - 160) {
           current = id;
         }
       }
       setActiveSection(current);
     };
+
+    onScroll();
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
