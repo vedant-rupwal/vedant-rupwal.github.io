@@ -1,16 +1,59 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+
+const CONTACT_EMAIL = 'vedantrupwal@gmail.com';
+const CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setForm({ name: '', email: '', message: '' });
+    setSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `Portfolio contact from ${form.name}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || 'Message could not be sent.');
+      }
+
+      setSubmitted(true);
+      setForm({ name: '', email: '', message: '' });
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (err) {
+      const subject = encodeURIComponent(`Portfolio contact from ${form.name || 'website visitor'}`);
+      const body = encodeURIComponent(
+        `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
+      );
+      const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+
+      setError('Message service is unavailable. Opening your email app instead.');
+      window.location.href = mailtoUrl;
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -52,7 +95,7 @@ export default function Contact() {
 
             <div className="space-y-5">
               <a
-                href="mailto:vedantrupwal@gmail.com"
+                href={`mailto:${CONTACT_EMAIL}`}
                 className="group flex items-center gap-4 text-zinc-400 hover:text-emerald-400 transition-colors duration-200"
               >
                 <div className="w-10 h-10 rounded-lg border border-zinc-800 bg-zinc-900 flex items-center justify-center group-hover:border-emerald-500/40 transition-colors duration-200">
@@ -60,7 +103,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-xs font-mono text-zinc-600 mb-0.5">Email</p>
-                  <p className="text-sm font-medium">vedantrupwal@gmail.com</p>
+                  <p className="text-sm font-medium">{CONTACT_EMAIL}</p>
                 </div>
               </a>
 
@@ -113,6 +156,12 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
+                {error && (
+                  <div className="flex items-start gap-3 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-300" />
+                    <span>{error}</span>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-mono text-zinc-500 mb-2 uppercase tracking-wider">Name</label>
@@ -150,10 +199,20 @@ export default function Contact() {
                 </div>
                 <button
                   type="submit"
+                  disabled={submitting}
                   className="group w-full flex items-center justify-center gap-2 py-3.5 rounded-lg bg-emerald-500 text-zinc-950 font-semibold text-sm hover:bg-emerald-400 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20"
                 >
-                  Send Message
-                  <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                  {submitting ? (
+                    <>
+                      Sending
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                    </>
+                  )}
                 </button>
               </form>
             )}
