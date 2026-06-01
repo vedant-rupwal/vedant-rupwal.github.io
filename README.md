@@ -35,4 +35,4 @@ npm run preview
 
 ## API Stubs
 
-The frontend uses `/api/v1/*` paths for any optional auth screens. The public portfolio at `/` does not require a backend.
+The frontend uses `/api/v1/*` paths for any optional auth screens. 
