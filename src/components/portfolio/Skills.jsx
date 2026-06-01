@@ -28,7 +28,6 @@ const skillCategories = [
     label: 'Certifications',
     tag: '[CERT]',
     skills: [
-      'AWS Solutions Architect Associate',
       'Deep Learning · TensorFlow',
       'Accelerated Deep Learning · GPU',
       'Applied Data Science · R (Lvl 2)',

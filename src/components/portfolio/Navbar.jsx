@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Menu, X } from 'lucide-react';
 
-const RESUME_URL = '/Vedant_Rupwal_Resume.pdf';
+const RESUME_URL = '/_Vedant_Rupwal_Resume.pdf';
 
 const navLinks = [
   { label: 'About', href: '#about' },
