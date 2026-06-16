@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Cpu, BarChart2 } from 'lucide-react';
+import { Cpu, BarChart2, QrCode, ChartNetwork } from 'lucide-react';
 
 const projects = [
   {
@@ -31,6 +31,36 @@ const projects = [
     ],
     tags: ['Python', 'MATLAB', 'Data Science', 'Pipeline Optimization', 'Computational Modeling', 'R', 'Statistical Analysis'],
     accent: 'from-blue-500/15 to-indigo-500/5',
+  },
+  {
+    number: '03',
+    title: 'Hunt.QR',
+    subtitle: 'QR Event Platform',
+    icon: QrCode,
+    description:
+      'Team-based QR scavenger hunt application for live events. Admins create ordered clue chains, generate QR codes, monitor team progress in real time, and manage attempts while players scan clues, solve riddles, collect reward letters, and reveal the final word.',
+    bullets: [
+      'Built role-based player and admin flows for event setup, team creation, clue progression, answer checking, and live dashboards.',
+      'Backed gameplay state with Supabase Auth, Postgres, Row Level Security, and Realtime subscriptions for synchronized team progress.',
+      'Implemented QR scanning and export workflows with html5-qrcode, jspdf, and html2canvas for host-ready event operations.',
+    ],
+    tags: ['React', 'Vite', 'Supabase', 'Postgres', 'Realtime', 'Tailwind CSS', 'Radix UI', 'QR Scanning'],
+    accent: 'from-cyan-500/15 to-emerald-500/5',
+  },
+  {
+    number: '04',
+    title: 'Econ Predictor',
+    subtitle: 'Economic Risk Console',
+    icon: ChartNetwork,
+    description:
+      'End-to-end systemic-fragility and economic-risk prediction architecture organized across phased Python packages and a browser console. The system connects data ingestion, causal DAG modeling, agent-based simulation, fragility scoring, and scenario visualization.',
+    bullets: [
+      'Designed a multi-phase Python monorepo with Phase 5 Pydantic contracts validating handoffs across ingestion, causal modeling, simulation, and decision layers.',
+      'Built a FastAPI and Next.js console for what-if interventions, live provider diagnostics, risk cones, scenario history, and aggregate-only simulation telemetry.',
+      'Implemented CPU-first math paths for EVT, GARCH-style volatility, vine-copula shocks, causal interventions, and simulation-only fragility estimates.',
+    ],
+    tags: ['Python', 'FastAPI', 'Next.js', 'TypeScript', 'Pydantic', 'Causal Modeling', 'Agent Simulation', 'D3'],
+    accent: 'from-rose-500/15 to-sky-500/5',
   },
 ];
 

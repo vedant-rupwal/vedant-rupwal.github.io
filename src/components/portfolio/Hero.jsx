@@ -16,8 +16,8 @@ export default function Hero() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToExperience = () => {
+    document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -92,7 +92,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <button
-            onClick={scrollToProjects}
+            onClick={scrollToExperience}
             className="group flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 text-zinc-950 font-semibold text-sm hover:bg-emerald-400 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 hover:-translate-y-0.5"
           >
             Explore Work
