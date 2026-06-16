@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowDown, Linkedin } from 'lucide-react';
+import { ArrowDown, Github, Linkedin } from 'lucide-react';
 
 export default function Hero() {
   const orbRef = useRef(null);
@@ -106,6 +106,15 @@ export default function Hero() {
           >
             <Linkedin className="w-4 h-4" />
             Connect on LinkedIn
+          </a>
+          <a
+            href="https://github.com/vedant-rupwal"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-700 text-zinc-300 font-semibold text-sm hover:border-zinc-500 hover:text-zinc-50 transition-all duration-300 hover:-translate-y-0.5"
+          >
+            <Github className="w-4 h-4" />
+            View GitHub
           </a>
         </motion.div>
 

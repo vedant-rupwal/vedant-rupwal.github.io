@@ -1,12 +1,29 @@
 import { motion } from 'framer-motion';
-import { Cpu, BarChart2, QrCode, ChartNetwork } from 'lucide-react';
+import { BarChart2, ChartNetwork, Cpu, ExternalLink, Github, QrCode } from 'lucide-react';
 
 const projects = [
   {
     number: '01',
-    title: 'Ask the Pandit',
+    title: 'Econ Predictor',
+    subtitle: 'Economic Risk Console',
+    icon: ChartNetwork,
+    repoUrl: 'https://github.com/vedant-rupwal/Econ-Predictor',
+    description:
+      'End-to-end systemic-fragility and economic-risk prediction architecture organized across phased Python packages and a browser console. The system connects data ingestion, causal DAG modeling, agent-based simulation, fragility scoring, and scenario visualization.',
+    bullets: [
+      'Designed a multi-phase Python monorepo with Phase 5 Pydantic contracts validating handoffs across ingestion, causal modeling, simulation, and decision layers.',
+      'Built a FastAPI and Next.js console for what-if interventions, live provider diagnostics, risk cones, scenario history, and aggregate-only simulation telemetry.',
+      'Implemented CPU-first math paths for EVT, GARCH-style volatility, vine-copula shocks, causal interventions, and simulation-only fragility estimates.',
+    ],
+    tags: ['Python', 'FastAPI', 'Next.js', 'TypeScript', 'Pydantic', 'Causal Modeling', 'Agent Simulation', 'D3'],
+    accent: 'from-rose-500/15 to-sky-500/5',
+  },
+  {
+    number: '02',
+    title: 'Ask the Pundit',
     subtitle: 'AI / LLM Reading Assistant',
     icon: Cpu,
+    repoUrl: 'https://github.com/vedant-rupwal/Ask-The-Pundit',
     description:
       'Advanced Retrieval-Augmented Generation application utilizing a hybrid database routing system with ChromaDB to optimize system memory and accelerate semantic search. Context-aware Chrome extension delivering precise, text-backed RAG answers from extensive theological scriptures.',
     bullets: [
@@ -18,7 +35,7 @@ const projects = [
     accent: 'from-emerald-500/20 to-teal-500/5',
   },
   {
-    number: '02',
+    number: '03',
     title: 'UIC Spatiotemporal Research',
     subtitle: 'Data Pipeline & Computational Modeling',
     icon: BarChart2,
@@ -33,10 +50,11 @@ const projects = [
     accent: 'from-blue-500/15 to-indigo-500/5',
   },
   {
-    number: '03',
+    number: '04',
     title: 'Hunt.QR',
     subtitle: 'QR Event Platform',
     icon: QrCode,
+    repoUrl: 'https://github.com/vedant-rupwal/Scavenger-Hunt',
     description:
       'Team-based QR scavenger hunt application for live events. Admins create ordered clue chains, generate QR codes, monitor team progress in real time, and manage attempts while players scan clues, solve riddles, collect reward letters, and reveal the final word.',
     bullets: [
@@ -46,21 +64,6 @@ const projects = [
     ],
     tags: ['React', 'Vite', 'Supabase', 'Postgres', 'Realtime', 'Tailwind CSS', 'Radix UI', 'QR Scanning'],
     accent: 'from-cyan-500/15 to-emerald-500/5',
-  },
-  {
-    number: '04',
-    title: 'Econ Predictor',
-    subtitle: 'Economic Risk Console',
-    icon: ChartNetwork,
-    description:
-      'End-to-end systemic-fragility and economic-risk prediction architecture organized across phased Python packages and a browser console. The system connects data ingestion, causal DAG modeling, agent-based simulation, fragility scoring, and scenario visualization.',
-    bullets: [
-      'Designed a multi-phase Python monorepo with Phase 5 Pydantic contracts validating handoffs across ingestion, causal modeling, simulation, and decision layers.',
-      'Built a FastAPI and Next.js console for what-if interventions, live provider diagnostics, risk cones, scenario history, and aggregate-only simulation telemetry.',
-      'Implemented CPU-first math paths for EVT, GARCH-style volatility, vine-copula shocks, causal interventions, and simulation-only fragility estimates.',
-    ],
-    tags: ['Python', 'FastAPI', 'Next.js', 'TypeScript', 'Pydantic', 'Causal Modeling', 'Agent Simulation', 'D3'],
-    accent: 'from-rose-500/15 to-sky-500/5',
   },
 ];
 
@@ -133,6 +136,23 @@ export default function Projects() {
                       </li>
                     ))}
                   </ul>
+
+                  <div className="flex items-center justify-between gap-4 mb-7">
+                    {project.repoUrl ? (
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                        View Repo
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <span className="text-xs font-mono text-zinc-600">Private / research repository</span>
+                    )}
+                  </div>
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5">
